@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffc600">
+    <title>Drum Kit</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1>DRUM KIT</h1>
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd> 
+            <span class="effect">CLAP</span>
+        </div>
+        <div data-key="83"class="key">
+            <kbd>S</kbd>
+            <span class="effect">HIHAT</span>
+        </div>
+        <div data-key="68"class="key">
+            <kbd>D</kbd>
+            <span class="effect">KICK</span>
+        </div>
+        <div data-key="70"class="key">
+            <kbd>F</kbd>
+            <span class="effect">OPENHAT</span>
+        </div>
+        <div data-key="71"class="key">
+            <kbd>G</kbd>
+            <span class="effect">BOOM</span>
+        </div>
+        <div data-key="72"class="key">
+            <kbd>H</kbd>
+            <span class="effect">RIDE</span>
+        </div>
+        <div data-key="74"class="key">
+            <kbd>J</kbd>
+            <span class="effect">SNARE</span>
+        </div>
+        <div data-key="75"class="key">
+            <kbd>K</kbd>
+            <span class="effect">TOM</span>
+        </div><div data-key="76"class="key">
+            <kbd>L</kbd>
+            <span class="effect">TINK</span>
+        </div>
+    </div>
+
+    <audio data-key="65" src="Sounds/clap.wav"></audio>
+    <audio data-key="83" src="Sounds/hihat.wav"></audio>
+    <audio data-key="68" src="Sounds/kick.wav"></audio>
+    <audio data-key="70" src="Sounds/openhat.wav"></audio>
+    <audio data-key="71" src="Sounds/boom.wav"></audio>
+    <audio data-key="72" src="Sounds/ride.wav"></audio>
+    <audio data-key="74" src="Sounds/snare.wav"></audio>
+    <audio data-key="75" src="Sounds/tom.wav"></audio>
+    <audio data-key="76" src="Sounds/tink.wav"></audio>
+
+
+    <script>
+        function playSound(e){
+            // select html element on basis of the key pressed
+            //[] after audio is used for attribute selector
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if(!audio) return;  //if some other key is pressed then audio 
+                                //will contain null value so in that case
+                                // just return
+            audio.currentTime = 0; //so everytime the key is pressed 
+                                    //it will start from start
+            
+            audio.play();
+            key.classList.add('playing');
+        }
+        function removeTransition(e){
+            if(e.propertyName !== "transform") return;
+            this.classList.remove('playing');
+        }
+        
+        // Add event listener for any key pressed
+        window.addEventListener('keydown',playSound);
+        //to remove class playing
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener('transitionend',removeTransition));
+    </script>
+</body>
+</html>
